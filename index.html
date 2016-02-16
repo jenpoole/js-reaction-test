@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JS Reaction Test</title>
+    
+    <!----------
+     CSS 
+     ---------->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+     
+    <style>
+        
+        body {
+            font-family: Verdana, sans-serif;
+        }
+        
+        p {
+            font-weight: bold;
+        }
+        
+        .panel {
+            height: 100vh;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .panel .panel-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        .panel-footer p {
+            font-size: 1.5em;
+        }
+        
+        #box {
+            width: 150px;
+            height: 150px;
+            background-color: black;
+            display: none;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+  
+    <div class="panel panel-info">
+
+       <div class="panel-heading">
+           <h1>Test Your Reaction Time</h1>
+       </div>
+
+       <div class="panel-body">
+           <p>Instructions: Click on the shapes as quickly as you can.</p>
+       </div>
+
+       <div id="box"></div>
+
+       <div class="panel-footer">
+           <p>Your Time: <span id="time"></span> </p>
+       </div>
+
+    </div>   
+   
+   
+    <!---------- 
+    Javascript 
+    ----------->
+    <script>
+        
+        //Function to get a random color for div 
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++ ) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        
+        var clickedTime; var createdTime; var reactionTime;
+        
+        
+        function makeBox() {
+            
+            createdTime = Date.now();  
+            
+            var time = Math.random(); 
+        
+            time = time*3000 
+
+            setTimeout(function() {
+                
+                //Generates random circle
+                if (Math.random() > 0.5) {
+                    document.getElementById("box").style.borderRadius = "50%";   
+                } else {
+                    document.getElementById("box").style.borderRadius = "0";
+                }
+                
+                //Generates random position on page
+                var top = Math.random();
+                top = top*300;
+                
+                var left = Math.random();
+                left = left*600;
+                
+                document.getElementById("box").style.top = top + "px";
+                document.getElementById("box").style.left = left + "px";
+                
+                
+                //Generates random color 
+                document.getElementById("box").style.backgroundColor = getRandomColor(); 
+                
+                //Appears after random time 
+                document.getElementById("box").style.display = "block";
+            }, time);
+        }
+        
+        document.getElementById("box").onclick = function() {
+            clickedTime = Date.now();   
+            reactionTime = (clickedTime-createdTime)/1000 
+              
+            document.getElementById("time").innerHTML = reactionTime + " seconds";
+            this.style.display = "none";  
+            makeBox();
+        }
+        makeBox(); 
+    </script>
+</body>
+</html>
